@@ -1,6 +1,20 @@
 # src/Ens/JobeetBundle/Resources/config/doctrine/Category.orm.yml
 Ens\JobeetBundle\Entity\Job:
     type: entity
+    repositoryClass: Ens\JobeetBundle\Repository\JobRepository
+
+# Config YML for FOSRestBundle
+    exclusion_policy: ALL
+    properties : 
+      id : 
+        expose : true
+        groups : [api_process]
+        since : "1.0"
+      company : 
+        expose : true
+        groups : [api_process]
+        since : "1.0"
+
     table: job
     id:
         id:

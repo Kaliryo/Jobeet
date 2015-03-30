@@ -4,7 +4,6 @@ namespace Ens\JobeetBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Ens\JobeetBundle\Entity\Job;
 use Ens\JobeetBundle\Form\JobType;
 
@@ -12,30 +11,31 @@ use Ens\JobeetBundle\Form\JobType;
  * Job controller.
  *
  */
-class JobController extends Controller
-{
+class JobController extends Controller {
 
     /**
-     *  Lists all Job entities.
+     *  List all Job entities.
      *  Select only active Job
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $em = $this->getDoctrine()->getManager();
-        $query = $em->  createQuery(
-            'SELECT j FROM EnsJobeetBundle:Job j WHERE j.expires_at > :date')->
-                        setParameter('date', date('Y-m-d H:i:s', time() - 86400 * 30));
-        $entities = $query->getResult();
- 
-        return $this->render('EnsJobeetBundle:Job:index.html.twig', array('entities' => $entities));
+
+        $categories = $em->getRepository('EnsJobeetBundle:Category')->getWithJobs();
+
+        /* @var $categories type */
+        foreach ($categories as $category) {
+            $category->setActiveJobs($em->getRepository('EnsJobeetBundle:Job')->getActiveJobs($category->getId(), $this->container->getParameter('max_job_on_homepage')));
+            $category->setMoreJobs($em->getRepository('EnsJobeetBundle:Job')->countActiveJobs($category->getId()) - $this->container->getParameter('max_job_on_homepage'));
+        }
+
+        return $this->render('EnsJobeetBundle:Job:index.html.twig', array('categories' => $categories));
     }
 
     /**
      * Creates a new Job entity.
      *
      */
-    public function createAction(Request $request)
-    {
+    public function createAction(Request $request) {
         $entity = new Job();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
@@ -49,8 +49,8 @@ class JobController extends Controller
         }
 
         return $this->render('EnsJobeetBundle:Job:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+                    'entity' => $entity,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -61,8 +61,7 @@ class JobController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Job $entity)
-    {
+    private function createCreateForm(Job $entity) {
         $form = $this->createForm(new JobType(), $entity, array(
             'action' => $this->generateUrl('ens_job_create'),
             'method' => 'POST',
@@ -77,14 +76,13 @@ class JobController extends Controller
      * Displays a form to create a new Job entity.
      *
      */
-    public function newAction()
-    {
+    public function newAction() {
         $entity = new Job();
-        $form   = $this->createCreateForm($entity);
+        $form = $this->createCreateForm($entity);
 
         return $this->render('EnsJobeetBundle:Job:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+                    'entity' => $entity,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -92,8 +90,7 @@ class JobController extends Controller
      * Finds and displays a Job entity.
      *
      */
-    public function showAction($id)
-    {
+    public function showAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('EnsJobeetBundle:Job')->find($id);
@@ -105,8 +102,8 @@ class JobController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('EnsJobeetBundle:Job:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
+                    'entity' => $entity,
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -114,8 +111,7 @@ class JobController extends Controller
      * Displays a form to edit an existing Job entity.
      *
      */
-    public function editAction($id)
-    {
+    public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('EnsJobeetBundle:Job')->find($id);
@@ -128,21 +124,20 @@ class JobController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('EnsJobeetBundle:Job:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
     /**
-    * Creates a form to edit a Job entity.
-    *
-    * @param Job $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Job $entity)
-    {
+     * Creates a form to edit a Job entity.
+     *
+     * @param Job $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm(Job $entity) {
         $form = $this->createForm(new JobType(), $entity, array(
             'action' => $this->generateUrl('ens_job_update', array('id' => $entity->getId())),
             'method' => 'PUT',
@@ -152,12 +147,12 @@ class JobController extends Controller
 
         return $form;
     }
+
     /**
      * Edits an existing Job entity.
      *
      */
-    public function updateAction(Request $request, $id)
-    {
+    public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('EnsJobeetBundle:Job')->find($id);
@@ -177,17 +172,17 @@ class JobController extends Controller
         }
 
         return $this->render('EnsJobeetBundle:Job:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
+
     /**
      * Deletes a Job entity.
      *
      */
-    public function deleteAction(Request $request, $id)
-    {
+    public function deleteAction(Request $request, $id) {
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
 
@@ -213,13 +208,13 @@ class JobController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
-    {
+    private function createDeleteForm($id) {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('ens_job_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
+                        ->setAction($this->generateUrl('ens_job_delete', array('id' => $id)))
+                        ->setMethod('DELETE')
+                        ->add('submit', 'submit', array('label' => 'Delete'))
+                        ->getForm()
         ;
     }
+
 }

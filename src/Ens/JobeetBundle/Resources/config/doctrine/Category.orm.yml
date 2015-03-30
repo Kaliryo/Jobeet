@@ -1,6 +1,7 @@
 # src/Ens/JobeetBundle/Resources/config/doctrine/Category.orm.yml
 Ens\JobeetBundle\Entity\Category:
     type: entity
+    repositoryClass: Ens\JobeetBundle\Repository\CategoryRepository
     table: category
     id:
         id:
@@ -19,3 +20,6 @@ Ens\JobeetBundle\Entity\Category:
         affiliates:
             targetEntity: Affiliate
             mappedBy: categories
+    lifecycleCallbacks:
+        prePersist: [ setSlugValue ]
+        preUpdate: [ setSlugValue ]

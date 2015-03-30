@@ -5,3 +5,13 @@ ens_jobeet:
 app:
     resource: @AppBundle/Controller/
     type:     annotation
+
+job_api:
+    type: rest
+    resource: "@EnsJobeetBundle/Resources/config/routing_rest.yml"
+    prefix: /api
+    
+# app/config/routing.yml
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /api/doc    

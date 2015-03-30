@@ -3,6 +3,7 @@
 namespace Ens\JobeetBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+
 use Ens\JobeetBundle\Utils\Jobeet as Jobeet;
 
 /**
@@ -403,6 +404,17 @@ class Job
     public function getExpiresAt()
     {
         return $this->expires_at;
+    }
+
+    /**
+    * Set expires Value
+    */
+    public function setExpiresAtValue()
+    {
+        if(!$this->getExpiresAt()) {
+            $now = $this->getCreatedAt() ? $this->getCreatedAt()->format('U') : time();
+            $this->expires_at = new \DateTime(date('Y-m-d H:i:s', $now + 86400 * 30));
+        }
     }
 
     /**
