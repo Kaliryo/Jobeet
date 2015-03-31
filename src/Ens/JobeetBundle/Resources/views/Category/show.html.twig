@@ -17,14 +17,14 @@
         <h1 {{ category.name }} </h1>
     </div>
 
-    {{ include ('ensJobeetBundle:Job:list.html.twig', {'jobs': category.activejobs}) }}
+    {{ include ('EnsJobeetBundle:Job:list.html.twig', {'jobs': category.activejobs}) }}
     {% if last_page > 1 %}
         <div class="pagination">
-            <a href="{{ path('ensJobeetBundle_category', { 'slug': category.slug, 'page': 1 }) }}">
+            <a href="{{ path('EnsJobeetBundle_category', { 'slug': category.slug, 'page': 1 }) }}">
                 <img src="{{ asset('bundles/ensjobeet/images/first.png') }}" alt="First page" title="First page" />
             </a>
 
-            <a href="{{ path('ensJobeetBundle_category', { 'slug': category.slug, 'page': previous_page }) }}">
+            <a href="{{ path('EnsJobeetBundle_category', { 'slug': category.slug, 'page': previous_page }) }}">
                 <img src="{{ asset('bundles/ensjobeet/images/previous.png') }}" alt="Previous page" title="Previous page" />
             </a>
 
@@ -32,15 +32,15 @@
                 {% if page == current_page %}
                     {{ page }}
                 {% else %}
-                    <a href="{{ path('ensJobeetBundle_category', { 'slug': category.slug, 'page': page }) }}">{{ page }}</a>
+                    <a href="{{ path('EnsJobeetBundle_category', { 'slug': category.slug, 'page': page }) }}">{{ page }}</a>
                 {% endif %}
             {% endfor %}
 
-            <a href="{{ path('ensJobeetBundle_category', { 'slug': category.slug, 'page': next_page }) }}">
+            <a href="{{ path('EnsJobeetBundle_category', { 'slug': category.slug, 'page': next_page }) }}">
                 <img src="{{ asset('bundles/ensjobeet/images/next.png') }}" alt="Next page" title="Next page" />
             </a>
 
-            <a href="{{ path('ensJobeetBundle_category', { 'slug': category.slug, 'page': last_page }) }}">
+            <a href="{{ path('EnsJobeetBundle_category', { 'slug': category.slug, 'page': last_page }) }}">
                 <img src="{{ asset('bundles/ensjobeet/images/last.png') }}" alt="Last page" title="Last page" />
             </a>
         </div>

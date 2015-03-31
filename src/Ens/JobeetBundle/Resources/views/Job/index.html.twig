@@ -15,7 +15,7 @@
                     </div>
                     <h1><a href="{{ path('EnsJobeetBundle_category', { 'slug': category.slug }) }}">{{ category.name }}</a></h1>
                 </div>
-                {{ include ('ensJobeetBundle:Job:list.html.twig', {'jobs': category.activejobs}) }}
+                {{ include ('EnsJobeetBundle:Job:list.html.twig', {'jobs': category.activejobs}) }}
                 {% if category.morejobs %}
                     <div class="more_jobs">
                         and <a href="{{ path('EnsJobeetBundle_category', { 'slug': category.slug }) }}">{{ category.morejobs }}</a>
