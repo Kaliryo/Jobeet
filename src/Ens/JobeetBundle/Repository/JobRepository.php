@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class JobRepository extends EntityRepository {
 
-    public function getActiveJobs($category_id = null, $max = null) {
+    public function getActiveJobs($category_id = null, $max = null, $offset = null) {
 
         $qb = $this->createQueryBuilder('j')
                 ->where('j.expires_at > :date')
@@ -20,7 +20,11 @@ class JobRepository extends EntityRepository {
                 ->orderBy('j.expires_at', 'DESC');
 
         if ($max) {
-            $qb->setMaxResultts($max);
+            $qb->setMaxResults($max);
+        }
+        
+        if($offset) {
+            $qb->setFirstResults($offset);
         }
 
         if ($category_id) {
