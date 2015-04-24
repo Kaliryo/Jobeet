@@ -1,50 +1,9 @@
+# Eclipse files
+/.classpath
+/.project
+.settings/*
+/bin
 
-#ignore thumbnails created by windows
-Thumbs.db
-#Ignore files build by Visual Studio
-*.obj
-*.exe
-*.pdb
-*.user
-*.aps
-*.pch
-*.vspscc
-*_i.c
-*_p.c
-*.ncb
-*.suo
-*.tlb
-*.tlh
-*.bak
-*.cache
-*.ilk
-*.log
-[Bb]in
-[Dd]ebug*/
-*.lib
-*.sbr
-obj/
-[Rr]elease*/
-_ReSharper*/
-[Tt]est[Rr]esult*
-
-<<<<<<< HEAD
-
-.~*
-/nbproject/
-/build/
-build.xml
-manifest.mf
-=======
-/web/bundles/
-/app/bootstrap.php.cache
-/app/cache/*
-/app/config/parameters.yml
-/app/logs/*
-!app/cache/.gitkeep
-!app/logs/.gitkeep
-/build/
-/vendor/
-/bin/
-/composer.phar
->>>>>>> a66036e043cfc59a359f059b9dafe84f1767446c
+# Others
+/local.properties
+parameters.yml
