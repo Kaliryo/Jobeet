@@ -10,7 +10,7 @@ use Ens\JobeetBundle\Entity\Category;
  */
 class CategoryController extends Controller {
 
-    public function showAction($slug) {
+    public function showAction($slug, $page) {
         $em = $this->getDoctrine()->getManager();
 
         $category = $em->getRepository('EnsJobeetBundle:Category')->findOneBySlug($slug);

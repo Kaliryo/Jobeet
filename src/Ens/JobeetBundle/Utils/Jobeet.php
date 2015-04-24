@@ -4,6 +4,13 @@ namespace Ens\JobeetBundle\Utils;
  
 class Jobeet
 {
+    
+    /**
+     * Slugify text into lowrcase
+     * 
+     * @param type $text
+     * @return string
+     */
     static public function slugify($text)
     {
         // replace all non letters or digits by -
